@@ -46,7 +46,6 @@ const SnackCardBox = styled.div`
 	overflow: hidden auto;
 	scroll-snap-type: y mandatory;
 	overflow-y: auto;
-	background-color: pink;
 	/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
 	&::-webkit-scrollbar {
 		display: none;

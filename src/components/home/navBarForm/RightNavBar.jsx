@@ -15,7 +15,7 @@ function RightNavBar({ CardCenterRef }) {
 export default RightNavBar;
 
 const StNavContainer = styled.div`
-background-color: #373737;
+background-color: #ED6B33;
   display: flex;
   flex-direction: column;
   align-items: center;

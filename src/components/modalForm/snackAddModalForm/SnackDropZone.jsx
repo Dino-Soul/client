@@ -25,18 +25,20 @@ const SnackDropZone = ({ toggleOotdModal, setSelectedImage }) => {
 
 			{uploadedFiles.length === 0 && (
 				<StImageUl>
-					<BsFillCloudUploadFill size='50px' color='pink' />
+					<BsFillCloudUploadFill size='50px' color='orange' />
+					기기에 저장된 사진이나 동영상을 이곳에 업로드해주세요!
 				</StImageUl>
 			)}
 
 			{uploadedFiles.length === 1 && (
 				<div>
 					{uploadedFiles.map((file) => (
-						<StShowImg>
-							<img
+						<ShowVideo>
+							<video width="500px" autoPlay muted>
+							<source
 								key={file.name}
 								src={URL.createObjectURL(file)}
-								alt={file.name}
+								type="video/mp4"
 								style={{
 									minWidth: "480px",
 									maxWidth: "480px",
@@ -47,7 +49,9 @@ const SnackDropZone = ({ toggleOotdModal, setSelectedImage }) => {
 									alignContent: "center",
 								}}
 							/>
-						</StShowImg>
+							 <track kind="captions" src="" srclang="en" label="Disabled" default />
+							</video>
+						</ShowVideo>
 					))}
 				</div>
 			)}
@@ -60,16 +64,19 @@ export default SnackDropZone;
 
 // 업로드하는곳
 const StImageUl = styled.div`
-	width: 480px;
-	height: 380px;
+	font-size: 15px;
+	font-weight: bold;
+	width: 500px;
+	height: 700px;
 	background-color: rgba(255, 255, 255, 0.492);
 	display: flex;
+	gap: 20px;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	border: 12px ridge rgba(255, 202, 244, 0.298);
 `;
 
-export const StShowImg = styled.div`
+export const ShowVideo = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;

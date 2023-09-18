@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import SnackDropZone from "./SnackDropZone";
-
+import basicAvatar from "../../../assets/basicAvatar.png"
 
 function SnackAddModal({
   isAddModalVisibleState,
@@ -24,13 +24,8 @@ function SnackAddModal({
   return (
     <div>
       {isAddModalVisibleState && (
-        <>
           <StBackGround>
             <StModalBox>
-              <STdropBoxTitle>
-                <p>Drag & Drop</p>
-                <p>Write your OOTD</p>
-              </STdropBoxTitle>
               <div onClick={(e) => e.stopPropagation()}>
                 <SnackDropZone
                   onImageSelected={setUploadedFiles}
@@ -38,20 +33,22 @@ function SnackAddModal({
                 />
               </div>
               <div onClick={snackAddModalHandler}>
-                <StWriteOotd
+                <User><img src={basicAvatar} alt="프로필"/>닉네임넣어주세용</User>
+                <WriteText
                   value={ootdText}
                   onKeyDown={handleKeyDown}
                   onChange={(e) => setOotdText(e.target.value)}
+                  placeholder="문구 입력..."
                 />
+                <div>위치설정</div>
               </div>
               <div onClick={(e) => e.stopPropagation()}>
-                <StOotdUploadBtn onClick={imgAndPostHandler}>
-                  Upload
-                </StOotdUploadBtn>
+                <UploadButton onClick={imgAndPostHandler}>
+                  공유하기
+                </UploadButton>
               </div>
             </StModalBox>
           </StBackGround>
-        </>
       )}
     </div>
   );
@@ -73,68 +70,52 @@ const StBackGround = styled.div`
 
 const StModalBox = styled.div`
   display: flex;
-
   position: relative;
   background-color: rgba(255, 255, 255, 0.875);
   width: 900px;
   height: 700px;
-  border-radius: 12px;
   align-items: center;
-  justify-content: space-evenly;
 `;
 
 // 게시글
-const StWriteOotd = styled.textarea`
+const WriteText = styled.textarea`
   font-family: "omyu_pretty";
-  width: 300px;
-  height: 380px;
-  font-size: 30px;
-  background: linear-gradient(
-    80deg,
-    #9ed4f5,
-    #ffe8fa,
-    #f4ecf2,
-    #fcfcfc,
-    #d7f0ff,
-    #9ed4f5
-  );
-  border: 12px ridge rgba(255, 202, 244, 0.298);
-  word-wrap: break-word;
+  padding-left: 10px;
+  width: 370px;
+  height: 300px;
+  font-size: 17px;
+  border: none;
   resize: none;
+  background-color: transparent;
+  &:focus {
+    outline: none;
+  }
 `;
 
-const STdropBoxTitle = styled.div`
-  position: absolute;
-  top: 80px;
-  left: 40px;
-  font-family: "LeferiPoint-SpecialItalicA";
-  font-size: 27px;
-  font-weight: 900;
+const User = styled.div`
+  margin-left: 10px;
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
-  gap: 340px;
-  color: rgba(0, 0, 0, 0.415);
-`;
+  gap: 10px;
+  img {
+    width: 35px;
+    height: 35px;
+  }
+`
 
-const StOotdUploadBtn = styled.button`
+
+const UploadButton = styled.button`
   position: absolute;
-  bottom: 50px;
-  right: 100px;
+  top: 2%;
+  right: 2%;
   font-family: "LeferiPoint-SpecialItalicA";
   font-weight: 600;
-  font-size: 30px;
+  font-size: 15px;
   border: none;
-  border-radius: 100px;
-  margin-top: 30px;
-  padding-top: 6px;
-  background: linear-gradient(45deg, #1fa0f0, #e67bcd, #ffffff, #a7d2ec);
+  background-color: transparent;
   color: rgba(0, 0, 0, 0.655);
-  width: 700px;
-  height: 50px;
+  cursor: pointer;
   &:hover {
-    letter-spacing: 3px;
-    transform: scale(1.2);
-    cursor: pointer;
+    transform: scale(1.1);
   }
 `;
