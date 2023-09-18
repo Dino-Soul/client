@@ -5,6 +5,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import "./Map.css";
 import { gangwonLocation } from "../../utils/gangwonLocation";
 import SelectBox from "./SelectBox";
+import MapCategory from "./MapCategory";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -20,17 +21,13 @@ function KakaoMap() {
     level: 3,
   });
 
-  // console.log("myLocation", myLocation);
   const { location, error } = useCurrentLocation(geolocationOptions);
   useEffect(() => {
     myPointMove();
   }, [location]);
 
   const myPointMove = () => {
-    console.log("location", location);
-
     if (location) {
-      console.log("asdlocation", location);
       setMyLocation({
         lat: location.latitude,
         lng: location.longitude,
@@ -38,6 +35,16 @@ function KakaoMap() {
       });
     }
   };
+
+  const [selectedCategory, setSelectedCategory] = useState("restaurant");
+  const [isOpen, setIsOpen] = useState(false);
+  // const [selectedOption, setSelectedOption] = useState("");
+  const handleOptionChange = (selectedValue) => {
+    // setSelectedOption(selectedValue); // 선택된 값을 상태에 업데이트
+    setMyLocation(gangwonLocation(selectedValue));
+  };
+
+  // console.log("selectedCategory", selectedCategory);
   // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
   const markerImageSrc =
     "https://github.com/project-team-six/FE/assets/130561236/bd4fbe9c-d618-4617-90b6-7508d9246310";
@@ -117,66 +124,21 @@ function KakaoMap() {
   ];
   const leisureOrigin = { x: 10, y: 163 };
 
-  const [selectedCategory, setSelectedCategory] = useState("restaurant");
-  const [isOpen, setIsOpen] = useState(false);
-  // const [selectedOption, setSelectedOption] = useState("");
-  const handleOptionChange = (selectedValue) => {
-    // setSelectedOption(selectedValue); // 선택된 값을 상태에 업데이트
-    setMyLocation(gangwonLocation(selectedValue));
-  };
-
-  // console.log("selectedCategory", selectedCategory);
   useEffect(() => {
-    const restaurantMenu = document.getElementById("restaurantMenu");
-    const lodgingMenu = document.getElementById("lodgingMenu");
-    const shoppingMenu = document.getElementById("shoppingMenu");
-    const sightseeingMenu = document.getElementById("sightseeingMenu");
-    const humanitiesMenu = document.getElementById("humanitiesMenu");
-    const leisureMenu = document.getElementById("leisureMenu");
+    const menuIds = [
+      "restaurantMenu",
+      "lodgingMenu",
+      "shoppingMenu",
+      "sightseeingMenu",
+      "humanitiesMenu",
+      "leisureMenu",
+    ];
 
-    if (selectedCategory === "restaurant") {
-      restaurantMenu.className = "menu_selected";
-      lodgingMenu.className = "";
-      shoppingMenu.className = "";
-      sightseeingMenu.className = "";
-      humanitiesMenu.className = "";
-      leisureMenu.className = "";
-    } else if (selectedCategory === "lodging") {
-      restaurantMenu.className = "";
-      lodgingMenu.className = "menu_selected";
-      shoppingMenu.className = "";
-      sightseeingMenu.className = "";
-      humanitiesMenu.className = "";
-      leisureMenu.className = "";
-    } else if (selectedCategory === "shopping") {
-      restaurantMenu.className = "";
-      lodgingMenu.className = "";
-      shoppingMenu.className = "menu_selected";
-      sightseeingMenu.className = "";
-      humanitiesMenu.className = "";
-      leisureMenu.className = "";
-    } else if (selectedCategory === "sightseeing") {
-      restaurantMenu.className = "";
-      lodgingMenu.className = "";
-      shoppingMenu.className = "";
-      sightseeingMenu.className = "menu_selected";
-      humanitiesMenu.className = "";
-      leisureMenu.className = "";
-    } else if (selectedCategory === "humanities") {
-      restaurantMenu.className = "";
-      lodgingMenu.className = "";
-      shoppingMenu.className = "";
-      sightseeingMenu.className = "";
-      humanitiesMenu.className = "menu_selected";
-      leisureMenu.className = "";
-    } else if (selectedCategory === "leisure") {
-      restaurantMenu.className = "";
-      lodgingMenu.className = "";
-      shoppingMenu.className = "";
-      sightseeingMenu.className = "";
-      humanitiesMenu.className = "";
-      leisureMenu.className = "menu_selected";
-    }
+    menuIds.forEach((menuId) => {
+      const menu = document.getElementById(menuId);
+      menu.className =
+        selectedCategory === menuId.replace("Menu", "") ? "menu_selected" : "";
+    });
   }, [selectedCategory]);
 
   return (
@@ -221,18 +183,7 @@ function KakaoMap() {
                   onClick={() => setIsOpen(true)}
                 />
               ))}
-            {isOpen && (
-              <StInfoContainer>
-                <StDeleteButton
-                  alt="close"
-                  width="14"
-                  height="13"
-                  src="https://github.com/Dino-Soul/client/assets/132332533/0ce09bf3-fca2-423e-8327-7ee22cf0c295"
-                  onClick={() => setIsOpen(false)}
-                />
-                <StInfoBox>Hello World!</StInfoBox>
-              </StInfoContainer>
-            )}
+
             {selectedCategory === "lodging" &&
               lodgingPositions.map((position) => (
                 <MapMarker
@@ -318,6 +269,18 @@ function KakaoMap() {
                   onClick={() => setIsOpen(true)}
                 />
               ))}
+            {isOpen && (
+              <StInfoContainer>
+                <StDeleteButton
+                  alt="close"
+                  width="14"
+                  height="13"
+                  src="https://github.com/Dino-Soul/client/assets/132332533/0ce09bf3-fca2-423e-8327-7ee22cf0c295"
+                  onClick={() => setIsOpen(false)}
+                />
+                <StInfoBox>Hello World!</StInfoBox>
+              </StInfoContainer>
+            )}
             <MapMarker // 마커를 생성합니다
               position={{
                 // 마커가 표시될 위치입니다
@@ -340,52 +303,7 @@ function KakaoMap() {
             />
           </Map>
           {/* 지도 위에 표시될 마커 카테고리 */}
-          <div className="category">
-            <ul>
-              <li
-                id="restaurantMenu"
-                onClick={() => setSelectedCategory("restaurant")}
-              >
-                <span className="ico_comm ico_restaurant"></span>
-                맛집
-              </li>
-              <li
-                id="lodgingMenu"
-                onClick={() => setSelectedCategory("lodging")}
-              >
-                <span className="ico_comm ico_lodging"></span>
-                숙박
-              </li>
-              <li
-                id="shoppingMenu"
-                onClick={() => setSelectedCategory("shopping")}
-              >
-                <span className="ico_comm ico_shopping"></span>
-                쇼핑
-              </li>
-              <li
-                id="sightseeingMenu"
-                onClick={() => setSelectedCategory("sightseeing")}
-              >
-                <span className="ico_comm ico_sightseeing"></span>
-                자연관광
-              </li>
-              <li
-                id="humanitiesMenu"
-                onClick={() => setSelectedCategory("humanities")}
-              >
-                <span className="ico_comm ico_humanities"></span>
-                인문
-              </li>
-              <li
-                id="leisureMenu"
-                onClick={() => setSelectedCategory("leisure")}
-              >
-                <span className="ico_comm ico_leisure"></span>
-                레포츠
-              </li>
-            </ul>
-          </div>
+          <MapCategory setSelectedCategory={setSelectedCategory} />
           <SelectBox onOptionChange={handleOptionChange} />
           <StMyPoint onClick={myPointMove}>
             <StTargetImg src="https://github.com/Dino-Soul/client/assets/132332533/2134f2d3-c904-40ea-8224-0b0fff9e0968"></StTargetImg>
@@ -453,7 +371,4 @@ const StMyPoint = styled.button`
   cursor: pointer;
 `;
 
-const StTargetImg = styled.img`
-  /* width: 35px;
-  height: 35px; */
-`;
+const StTargetImg = styled.img``;
