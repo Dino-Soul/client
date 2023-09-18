@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import signLogo from "../Icon/logo.png";
+import blackLogo from "../assets/blackLogo.png"
 import {
   StInputForm,
   StOotdGramContainer,
@@ -66,19 +66,19 @@ function SignUp() {
         onClick={() => {
           navigate("/");
         }}
-        src={signLogo}
+        src={blackLogo}
         alt="로고"
       />
 
       <StInputForm onSubmit={onSubmitHandler}>
         <StSignInput
           onChange={(e) => setNickname(e.target.value)}
-          placeholder="Nick Name"
+          placeholder="Id"
           value={nickname}
           type="text"
         />
         <StSignInput
-          placeholder="e-mail"
+          placeholder="Nickname"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="text"

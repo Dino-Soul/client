@@ -5,7 +5,7 @@ import { BsFillCloudUploadFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
-const OotdAddDropZone = ({ toggleOotdModal, setSelectedImage }) => {
+const SnackDropZone = ({ toggleOotdModal, setSelectedImage }) => {
 	//ootdadddropzone은 자식컴포넌트, 부모인 ootdaddmodal에 uploadedFiles를 저쪽에 넘겨줘야하잖아요!
 	const [uploadedFiles, setUploadedFiles] = useState("");
 	useEffect(() => {
@@ -56,7 +56,7 @@ const OotdAddDropZone = ({ toggleOotdModal, setSelectedImage }) => {
 		</div>
 	);
 };
-export default OotdAddDropZone;
+export default SnackDropZone;
 
 // 업로드하는곳
 const StImageUl = styled.div`

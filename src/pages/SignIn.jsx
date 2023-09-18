@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import blackLogo from "../assets/blackLogo.png";
 
 function SignIn() {
+  const navigate = useNavigate();
   return (
     <StOotdGramContainer>
-      <StSignLogo />
+      <StSignLogo  onClick={() => {
+          navigate("/");
+        }} src={blackLogo} alt="로고"/>
 
       <StInputForm>
         <StSignInput />
@@ -24,9 +29,9 @@ function SignIn() {
 export default SignIn;
 
 export const StSignLogo = styled.img`
-  width: 200px;
-  height: 50px;
-  margin-bottom: 80px;
+  width: 230px;
+  height: 120px;
+  margin-bottom: 40px;
   cursor: pointer;
 `;
 

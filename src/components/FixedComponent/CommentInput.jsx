@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import Avatar from "../home/Avatar";
-import profile from "../../Icon/profile.jpg";
+
+import profile from "../../assets/profile.jpg";
+import Avatar from "../home/snackCardForm/Avatar";
 
 export default function CommentInput({
   postId,
