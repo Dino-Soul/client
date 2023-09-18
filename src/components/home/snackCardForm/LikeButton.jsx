@@ -1,16 +1,14 @@
 import React from "react";
 
 import styled from "styled-components";
-import EmptyHeartImg from "../../Icon/emptyHeartImg.png";
-import HeartImg from "../../Icon/heartImg.png";
-
-// const Heart = styled.img``;
+import emptyHeartImg from "../../../assets/emptyHeartImg.png"
+import heartImg from "../../../assets/heartImg.png"
 
 const LikeButton = ({ like, onClick }) => {
   return (
     <>
       <StButton onClick={onClick}>
-        <img src={like ? HeartImg : EmptyHeartImg} />
+        <img src={like ? heartImg : emptyHeartImg} />
       </StButton>
     </>
   );

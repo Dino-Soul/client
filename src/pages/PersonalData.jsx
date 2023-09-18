@@ -3,8 +3,8 @@ import { FaCheck } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import PersonalDataEditModal from "../components/Modal/PersonalDataEditModal";
-import avatar from "../Icon/basicAvatar.png";
+import PersonalDataEditModal from "../components/modalForm/profileEditForm/PersonalDataEditModal";
+
 import { StOotdGramContainer, StSignInput } from "./SignIn";
 
 function PersonalData() {
@@ -80,7 +80,7 @@ function PersonalData() {
           onClick={editPersonalDataHandler}
         />
       </div>
-      <img src={avatar} alt="아바타" />
+      <img  alt="아바타" />
       <StFont
         $fontColor={"blue"}
         style={{ cursor: "pointer" }}

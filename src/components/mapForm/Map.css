@@ -1,0 +1,62 @@
+/* #mapwrap{position:relative;overflow:hidden;} */
+.category,
+.category * {
+  margin: 0;
+  padding: 0;
+  color: #000;
+}
+.category {
+  position: absolute;
+  overflow: hidden;
+  top: 10px;
+  left: 10px;
+  width: 300px;
+  height: 50px;
+  z-index: 10;
+  border: 1px solid black;
+  font-family: "Malgun Gothic", "留묒� 怨좊뵓", sans-serif;
+  font-size: 12px;
+  text-align: center;
+  background-color: #fff;
+}
+.category .menu_selected {
+  background: #ff5f4a;
+  color: #fff;
+  border-left: 1px solid #915b2f;
+  border-right: 1px solid #915b2f;
+  margin: 0 -1px;
+}
+.category li {
+  list-style: none;
+  float: left;
+  width: 50px;
+  height: 45px;
+  padding-top: 5px;
+  cursor: pointer;
+}
+.category .ico_comm {
+  display: block;
+  margin: 0 auto 2px;
+  width: 22px;
+  height: 26px;
+  background: url("https://github.com/project-team-six/FE/assets/130561236/bd4fbe9c-d618-4617-90b6-7508d9246310")
+    no-repeat;
+}
+.category .ico_restaurant {
+  background-position: -10px 0;
+}
+.category .ico_lodging {
+  background-position: -10px -36px;
+}
+.category .ico_shopping {
+  background-position: -10px -72px;
+}
+.category .ico_sightseeing {
+  background-position: -10px -108px;
+}
+.category .ico_humanities {
+  background-position: -10px -144px;
+}
+.category .ico_leisure {
+  background-position: -10px -180px;
+}

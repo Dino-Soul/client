@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import { GrClose } from "react-icons/gr";
-import CommentInput from "../FixedComponent/CommentInput";
+import CommentInput from "../../FixedComponent/CommentInput";
 
-function Comments({ openComments, toggleCommentsHandler, postId, Ootdimage }) {
+function CommentModal({ openComments, toggleCommentsHandler, postId, Ootdimage }) {
   //댓글조회 data
   const [data, setData] = useState([]);
   const [content, setContent] = useState("");
@@ -105,7 +105,7 @@ function Comments({ openComments, toggleCommentsHandler, postId, Ootdimage }) {
   );
 }
 
-export default Comments;
+export default CommentModal;
 
 const StModalsFather = styled.div`
   display: flex;

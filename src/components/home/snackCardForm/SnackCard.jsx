@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { styled } from "styled-components";
-import profile from "../../Icon/profile.jpg";
-import comment from "../../Icon/comment.png";
-import Comments from "../Modal/Comments";
+import profile from "../../../assets/profile.jpg";
+import comment from "../../../assets/comment.png";
+
 import Avatar from "./Avatar";
 import LikeButton from "./LikeButton";
+import CommentModal from "../../modalForm/commentForm/CommentModal";
 
-function OotdCard({ Ootdimage, content, nickname, postId }) {
+function SnackCard({ Ootdimage, content, nickname, postId }) {
   //좋아요
   const [like, setLike] = useState(false);
 
@@ -119,17 +120,17 @@ function OotdCard({ Ootdimage, content, nickname, postId }) {
           </div>
         )}
       </StOotdCardContainer>
-      <Comments
-        postId={postId}
-        openComments={openComments}
-        toggleCommentsHandler={toggleCommentsHandler}
-        Ootdimage={Ootdimage}
+      <CommentModal
+             postId={postId}
+             openComments={openComments}
+             toggleCommentsHandler={toggleCommentsHandler}
+             Ootdimage={Ootdimage}
       />
     </>
   );
 }
 
-export default OotdCard;
+export default SnackCard;
 
 const StOotdCardContainer = styled.div`
   display: flex;
@@ -149,11 +150,6 @@ const StCardHead = styled.div`
   height: 50px;
 `;
 
-const WeatherIcon = styled.img`
-  width: 50px;
-  height: 50px;
-  background-color: transparent;
-`;
 
 const MainOotdImg = styled.img`
   width: 100%;
