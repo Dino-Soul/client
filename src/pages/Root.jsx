@@ -16,4 +16,5 @@ export default root;
 
 const StContainer = styled.div`
   display: flex;
+  min-width: 1280px;
 `;
