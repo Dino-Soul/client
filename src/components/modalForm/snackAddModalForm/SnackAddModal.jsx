@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import OotdAddDropZone from "./OotdAddDropZone";
+import SnackDropZone from "./SnackDropZone";
 
-function OotdAddModal({
-  addModal,
-  toggleOotdModal,
+
+function SnackAddModal({
+  isAddModalVisibleState,
+  snackAddModalHandler,
   onImageSelected,
   setUploadedFiles,
 }) {
@@ -17,12 +18,12 @@ function OotdAddModal({
     }
   };
   const imgAndPostHandler = async () => {
-    toggleOotdModal();
+    snackAddModalHandler();
   };
 
   return (
     <div>
-      {addModal && (
+      {isAddModalVisibleState && (
         <>
           <StBackGround>
             <StModalBox>
@@ -31,12 +32,12 @@ function OotdAddModal({
                 <p>Write your OOTD</p>
               </STdropBoxTitle>
               <div onClick={(e) => e.stopPropagation()}>
-                <OotdAddDropZone
+                <SnackDropZone
                   onImageSelected={setUploadedFiles}
                   setSelectedImage={setSelectedImage}
                 />
               </div>
-              <div onClick={toggleOotdModal}>
+              <div onClick={snackAddModalHandler}>
                 <StWriteOotd
                   value={ootdText}
                   onKeyDown={handleKeyDown}
@@ -56,7 +57,7 @@ function OotdAddModal({
   );
 }
 
-export default OotdAddModal;
+export default SnackAddModal;
 
 const StBackGround = styled.div`
   position: fixed;

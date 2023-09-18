@@ -1,73 +1,73 @@
 import React, { useState } from "react";
-import { HiPhotograph } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import add from "../../Icon/add.png";
-import home from "../../Icon/home.png";
-import people from "../../Icon/people.png";
-import OotdAddModal from "../Modal/OotdAddModal";
+import home from "../../../assets/home.png"
+import people from "../../../assets/people.png"
+import add from "../../../assets/add.png"
+import SnackAddModal from "../../modalForm/snackAddModalForm/SnackAddModal";
 
-function NavBarButton({ stCardCenterRef }) {
+function NavBarButton({ CardCenterRef }) {
+  //홈버튼 눌렀을때 스크롤위치 맨 위쪽으로
   const scrollToTop = () => {
-    stCardCenterRef.current.scrollTo({
+    CardCenterRef.current.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
   const navigate = useNavigate();
-  const [addModal, setAddModal] = useState(false);
-
-  const toggleOotdModal = () => {
-    setAddModal((pre) => !pre);
+  //스낵올리기
+  const [isAddModalVisibleState, setIsAddModalVisibleState] = useState(false);
+  const snackAddModalHandler = () => {
+    setIsAddModalVisibleState((pre) => !pre);
   };
 
   return (
     <>
-      <StDiv>
+      <Section>
         <HomeButton onClick={scrollToTop}>
           <HomeIcon src={home} alt="홈버튼" />
-          <StSpan>홈</StSpan>
+          <Span>홈</Span>
         </HomeButton>
-      </StDiv>
-      <StDiv>
+      </Section>
+      <Section>
         <SingUpButton
           onClick={() => {
             navigate("signup");
           }}
         >
           <PeopleIcon src={people} alt="회원가입버튼" />
-          <StSpan>회원가입</StSpan>
+          <Span>회원가입/로그인</Span>
         </SingUpButton>
-      </StDiv>
-      <StDiv>
-        <AddButton onClick={toggleOotdModal}>
+      </Section>
+      <Section>
+        <AddButton onClick={snackAddModalHandler}>
           <AddIcon src={add} alt="게시물올리기버튼" />
-          <StSpan>ootd 올리기</StSpan>
-          <OotdAddModal addModal={addModal} toggleOotdModal={toggleOotdModal} />
+          <Span>Snack 올리기</Span>
+          <SnackAddModal isAddModalVisibleState={isAddModalVisibleState} snackAddModalHandler={snackAddModalHandler} />
         </AddButton>
-      </StDiv>
-      <StDiv>
+      </Section>
+      <Section>
         <EditButton
           onClick={() => {
             navigate("personaldata");
           }}
         >
-          <HiPhotograph size={30} cursor="pointer" />
-          <StSpan>프로필 수정</StSpan>
+          <Span>프로필 수정</Span>
         </EditButton>
-      </StDiv>
+      </Section>
     </>
   );
 }
 
 export default NavBarButton;
 
-const StDiv = styled.div`
+const Section = styled.section`
   width: 90%;
 `;
 
-const StSpan = styled.span`
+const Span = styled.span`
   font-weight: bold;
+  color : white;
 `;
 
 const HomeButton = styled.button`
@@ -75,7 +75,6 @@ const HomeButton = styled.button`
   justify-content: flex-start;
   align-items: center;
   padding-left: 40px;
-  margin-top: 20px;
   gap: 20px;
   width: 100%;
   height: 40px;
@@ -89,8 +88,8 @@ const HomeButton = styled.button`
 `;
 
 const HomeIcon = styled.img`
-  width: 23px;
-  height: 25px;
+  width: 22px;
+  height: 22px;
   background-color: transparent;
 `;
 
@@ -114,7 +113,7 @@ const SingUpButton = styled.button`
 
 const PeopleIcon = styled.img`
   width: 20px;
-  height: 25px;
+  height: 20px;
   background-color: transparent;
 `;
 

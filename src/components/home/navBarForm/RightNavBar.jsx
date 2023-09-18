@@ -1,13 +1,13 @@
 import React from "react";
 import { styled } from "styled-components";
-import logo from "../../Icon/logo.png";
+import whiteLogo from "../../../assets/whiteLogo.png"
 import NavBarButton from "./NavBarButton";
 
-function RightNavBar({ stCardCenterRef }) {
+function RightNavBar({ CardCenterRef }) {
   return (
     <StNavContainer>
-      <NavLogo src={logo} alt="로고" />
-      <NavBarButton stCardCenterRef={stCardCenterRef} />
+      <NavLogo src={whiteLogo} alt="로고" />
+      <NavBarButton CardCenterRef={CardCenterRef} />
     </StNavContainer>
   );
 }
@@ -15,15 +15,16 @@ function RightNavBar({ stCardCenterRef }) {
 export default RightNavBar;
 
 const StNavContainer = styled.div`
+background-color: #373737;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 30%;
   height: 100vh;
-  border-left: 1px solid rgb(0, 0, 0);
 `;
 const NavLogo = styled.img`
-  width: 200px;
-  height: 50px;
-  margin-top: 50px;
+  width: 220px;
+  height: 100px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
