@@ -3,6 +3,8 @@ import styled from "styled-components";
 import useCurrentLocation from "../../hooks/useCurrentPosition";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import "./Map.css";
+import { gangwonLocation } from "../../utils/gangwonLocation";
+import SelectBox from "./SelectBox";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -13,19 +15,29 @@ const geolocationOptions = {
 function KakaoMap() {
   const [map, setMap] = useState(null);
   const [myLocation, setMyLocation] = useState({
-    latitude: 37.498004414546934,
-    longitude: 127.02770621963765,
+    lat: 37.498004414546934,
+    lng: 127.02770621963765,
+    level: 3,
   });
+
+  // console.log("myLocation", myLocation);
   const { location, error } = useCurrentLocation(geolocationOptions);
-  console.log("myLocation", myLocation);
   useEffect(() => {
+    myPointMove();
+  }, [location]);
+
+  const myPointMove = () => {
+    console.log("location", location);
+
     if (location) {
+      console.log("asdlocation", location);
       setMyLocation({
-        latitude: location.latitude,
-        longitude: location.longitude,
+        lat: location.latitude,
+        lng: location.longitude,
+        level: 3,
       });
     }
-  }, [location]);
+  };
   // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
   const markerImageSrc =
     "https://github.com/project-team-six/FE/assets/130561236/bd4fbe9c-d618-4617-90b6-7508d9246310";
@@ -35,13 +47,13 @@ function KakaoMap() {
 
   // 맛집 마커가 표시될 좌표 배열입니다
   const restaurantPositions = [
-    { lat: 37.499590490909185, lng: 127.0263723554437 },
-    { lat: 37.499427948430814, lng: 127.02794423197847 },
-    { lat: 37.498553760499505, lng: 127.02882598822454 },
-    { lat: 37.497625593121384, lng: 127.02935713582038 },
-    { lat: 37.49646391248451, lng: 127.02675574250912 },
-    { lat: 37.49629291770947, lng: 127.02587362608637 },
-    { lat: 37.49754540521486, lng: 127.02546694890695 },
+    { lat: 38.1983886, lng: 128.5358105 },
+    { lat: 37.8223621, lng: 128.8850211 },
+    { lat: 38.1980428, lng: 128.5323393 },
+    { lat: 38.1821785, lng: 128.6015652 },
+    { lat: 37.7013453, lng: 127.8527475 },
+    { lat: 37.8376208, lng: 128.875359 },
+    { lat: 37.8846101, lng: 127.712109 },
   ];
   const restaurantOrigin = { x: 9, y: 0 };
 
@@ -107,8 +119,13 @@ function KakaoMap() {
 
   const [selectedCategory, setSelectedCategory] = useState("restaurant");
   const [isOpen, setIsOpen] = useState(false);
+  // const [selectedOption, setSelectedOption] = useState("");
+  const handleOptionChange = (selectedValue) => {
+    // setSelectedOption(selectedValue); // 선택된 값을 상태에 업데이트
+    setMyLocation(gangwonLocation(selectedValue));
+  };
 
-  console.log("selectedCategory", selectedCategory);
+  // console.log("selectedCategory", selectedCategory);
   useEffect(() => {
     const restaurantMenu = document.getElementById("restaurantMenu");
     const lodgingMenu = document.getElementById("lodgingMenu");
@@ -165,21 +182,27 @@ function KakaoMap() {
   return (
     <>
       <StMapContainer>
-        <CategoryMarkerStyle />
         <div id="mapwrap">
           <Map // 지도를 표시할 Container
             id={`map`}
             center={{
               // 지도의 중심좌표
-              lat: 37.498004414546934,
-              lng: 127.02770621963765,
+              lat: myLocation.lat,
+              lng: myLocation.lng,
             }}
+            isPanto={false}
             style={{
               // 지도의 크기
               width: "100%",
               height: "100%",
             }}
-            level={3} // 지도의 확대 레벨
+            level={myLocation.level} // 지도의 확대 레벨
+            onDragEnd={(map) =>
+              setMyLocation({
+                lat: map.getCenter().getLat(),
+                lng: map.getCenter().getLng(),
+              })
+            }
           >
             {selectedCategory === "restaurant" &&
               restaurantPositions.map((position) => (
@@ -204,7 +227,7 @@ function KakaoMap() {
                   alt="close"
                   width="14"
                   height="13"
-                  src="https://t1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif"
+                  src="https://github.com/Dino-Soul/client/assets/132332533/0ce09bf3-fca2-423e-8327-7ee22cf0c295"
                   onClick={() => setIsOpen(false)}
                 />
                 <StInfoBox>Hello World!</StInfoBox>
@@ -363,6 +386,10 @@ function KakaoMap() {
               </li>
             </ul>
           </div>
+          <SelectBox onOptionChange={handleOptionChange} />
+          <StMyPoint onClick={myPointMove}>
+            <StTargetImg src="https://github.com/Dino-Soul/client/assets/132332533/2134f2d3-c904-40ea-8224-0b0fff9e0968"></StTargetImg>
+          </StMyPoint>
         </div>
       </StMapContainer>
     </>
@@ -387,21 +414,6 @@ const StMapContainer = styled.div`
   }
 `;
 
-const CategoryMarkerStyle = styled.div`
-  position: absolute;
-  overflow: hidden;
-  top: 10px;
-  left: 10px;
-  width: 300px;
-  height: 50px;
-  z-index: 10;
-  border: 1px solid black;
-  font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
-  font-size: 12px;
-  text-align: center;
-  background-color: #fff;
-`;
-
 const StInfoContainer = styled.div`
   position: fixed;
   bottom: 50px;
@@ -409,6 +421,7 @@ const StInfoContainer = styled.div`
   min-width: 150px;
   z-index: 99;
   background-color: white;
+  border: 1px solid grey;
   border-radius: 5px;
   width: 350px;
   height: 100px;
@@ -424,4 +437,23 @@ const StDeleteButton = styled.img`
 const StInfoBox = styled.div`
   padding: 5px;
   color: black;
+`;
+const StMyPoint = styled.button`
+  position: absolute;
+  overflow: hidden;
+  top: 10px;
+  right: 10px;
+  width: 50px;
+  height: 52px;
+  z-index: 10;
+  border: 1px solid grey;
+  border-radius: 5px;
+
+  background-color: white;
+  cursor: pointer;
+`;
+
+const StTargetImg = styled.img`
+  /* width: 35px;
+  height: 35px; */
 `;
