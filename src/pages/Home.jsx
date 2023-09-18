@@ -9,9 +9,13 @@ function Home() {
 	return (
 		<HomeContainer>
 			<CardCenter ref={CardCenterRef}>
-				<div>
+				<SnackCardBox>
 					<SnackCard />
-				</div>
+					<SnackCard />
+					<SnackCard />
+					<SnackCard />
+					<SnackCard />
+				</SnackCardBox>
 			</CardCenter>
 			<RightNavBar CardCenterRef={CardCenterRef} />
 		</HomeContainer>
@@ -33,6 +37,14 @@ const CardCenter = styled.div`
 	width: 70%;
 	max-height: 100vh;
 	align-items: center;
+
+`;
+
+const SnackCardBox = styled.div`
+	width:100%;
+	flex-direction: column;
+	overflow: hidden auto;
+	scroll-snap-type: y mandatory;
 	overflow-y: auto;
 	/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
 	&::-webkit-scrollbar {
