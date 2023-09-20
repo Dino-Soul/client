@@ -6,6 +6,8 @@ import "./Map.css";
 import { gangwonLocation } from "../../utils/gangwonLocation";
 import SelectBox from "./SelectBox";
 import MapCategory from "./MapCategory";
+import { useQuery } from "react-query";
+import { gettravlespot } from "../../api/mapApi";
 
 const geolocationOptions = {
   enableHighAccuracy: true,
@@ -21,11 +23,13 @@ function KakaoMap() {
     level: 3,
   });
 
+  // 처음 접속할때 내위치 받아와서 이동
   const { location, error } = useCurrentLocation(geolocationOptions);
   useEffect(() => {
     myPointMove();
   }, [location]);
 
+  // 내 위치로 이동
   const myPointMove = () => {
     if (location) {
       setMyLocation({
@@ -44,85 +48,49 @@ function KakaoMap() {
     setMyLocation(gangwonLocation(selectedValue));
   };
 
-  // console.log("selectedCategory", selectedCategory);
-  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
+  const {
+    isLoading,
+    isError,
+    data: travlespotData,
+  } = useQuery("travlespot", gettravlespot, {
+    refetchOnWindowFocus: false,
+  });
   const markerImageSrc =
     "https://github.com/project-team-six/FE/assets/130561236/bd4fbe9c-d618-4617-90b6-7508d9246310";
 
   const imageSize = { width: 22, height: 26 };
   const spriteSize = { width: 31, height: 192 };
 
-  // 맛집 마커가 표시될 좌표 배열입니다
-  const restaurantPositions = [
-    { lat: 38.1983886, lng: 128.5358105 },
-    { lat: 37.8223621, lng: 128.8850211 },
-    { lat: 38.1980428, lng: 128.5323393 },
-    { lat: 38.1821785, lng: 128.6015652 },
-    { lat: 37.7013453, lng: 127.8527475 },
-    { lat: 37.8376208, lng: 128.875359 },
-    { lat: 37.8846101, lng: 127.712109 },
-  ];
+  function extractDataByRange(data, start, end) {
+    return (
+      data?.data.slice(start, end).map((data) => ({
+        spotName: data.spotName,
+        location: data.location,
+        subCategory: data.subCategory,
+        lat: data.latitude,
+        lng: data.longitude,
+      })) || []
+    );
+  }
+
+  const leisureData = extractDataByRange(travlespotData, 0, 25);
+  const shoppingData = extractDataByRange(travlespotData, 26, 46);
+  const lodgingData = extractDataByRange(travlespotData, 47, 66);
+  const humanitiesData = extractDataByRange(travlespotData, 67, 166);
+  const sightseeingData = extractDataByRange(travlespotData, 167, 266);
+  const restaurantData = extractDataByRange(travlespotData, 267, 366);
+
+  const leisureOrigin = { x: 10, y: 163 };
   const restaurantOrigin = { x: 9, y: 0 };
-
-  // 숙박 마커가 표시될 좌표 배열입니다
-  const lodgingPositions = [
-    { lat: 37.497535461505684, lng: 127.02948149502778 },
-    { lat: 37.49671536281186, lng: 127.03020491448352 },
-    { lat: 37.496201943633714, lng: 127.02959405469642 },
-    { lat: 37.49640072567703, lng: 127.02726459882308 },
-    { lat: 37.49640098874988, lng: 127.02609983175294 },
-    { lat: 37.49932849491523, lng: 127.02935780247945 },
-    { lat: 37.49996818951873, lng: 127.02943721562295 },
-  ];
   const lodgingOrigin = { x: 10, y: 32 };
-
-  // 쇼핑 마커가 표시될 좌표 배열입니다
-  const shoppingPositions = [
-    { lat: 37.49966168796031, lng: 127.03007039430118 },
-    { lat: 37.499463762912974, lng: 127.0288828824399 },
-    { lat: 37.49896834100913, lng: 127.02833986892401 },
-    { lat: 37.49893267508434, lng: 127.02673400572665 },
-    { lat: 37.49872543597439, lng: 127.02676785815386 },
-    { lat: 37.49813096097184, lng: 127.02591949495914 },
-    { lat: 37.497680616783086, lng: 127.02518427952202 },
-  ];
   const shoppingOrigin = { x: 10, y: 65 };
-
-  // 자연관광 마커가 표시될 좌표 배열입니다
-  const sightseeingPositions = [
-    { lat: 37.499590490909185, lng: 127.0263723554437 },
-    { lat: 37.499427948430814, lng: 127.02794423197847 },
-    { lat: 37.498553760499505, lng: 127.02882598822454 },
-    { lat: 37.497625593121384, lng: 127.02935713582038 },
-    { lat: 37.49646391248451, lng: 127.02675574250912 },
-    { lat: 37.49629291770947, lng: 127.02587362608637 },
-    { lat: 37.49754540521486, lng: 127.02546694890695 },
-  ];
   const sightseeingOrigin = { x: 10, y: 100 };
-
-  // 인문 마커가 표시될 좌표 배열입니다
-  const humanitiesPositions = [
-    { lat: 37.497535461505684, lng: 127.02948149502778 },
-    { lat: 37.49671536281186, lng: 127.03020491448352 },
-    { lat: 37.496201943633714, lng: 127.02959405469642 },
-    { lat: 37.49640072567703, lng: 127.02726459882308 },
-    { lat: 37.49640098874988, lng: 127.02609983175294 },
-    { lat: 37.49932849491523, lng: 127.02935780247945 },
-    { lat: 37.49996818951873, lng: 127.02943721562295 },
-  ];
   const humanitiesOrigin = { x: 10, y: 130 };
 
-  // 레포츠 마커가 표시될 좌표 배열입니다
-  const leisurePositions = [
-    { lat: 37.49966168796031, lng: 127.03007039430118 },
-    { lat: 37.499463762912974, lng: 127.0288828824399 },
-    { lat: 37.49896834100913, lng: 127.02833986892401 },
-    { lat: 37.49893267508434, lng: 127.02673400572665 },
-    { lat: 37.49872543597439, lng: 127.02676785815386 },
-    { lat: 37.49813096097184, lng: 127.02591949495914 },
-    { lat: 37.497680616783086, lng: 127.02518427952202 },
-  ];
-  const leisureOrigin = { x: 10, y: 163 };
+  const locationInformation = (Information) => {
+    console.log("Information", Information);
+    setIsOpen(Information);
+  };
 
   useEffect(() => {
     const menuIds = [
@@ -140,25 +108,47 @@ function KakaoMap() {
         selectedCategory === menuId.replace("Menu", "") ? "menu_selected" : "";
     });
   }, [selectedCategory]);
+  // if (isLoading) {
+  //   return <p>Loading...</p>;
+  // }
+  // if (isError) {
+  //   return <p>Error loading scrap data...</p>;
+  // }
 
+  const renderMarkers = (positions, imageOptions, subCategory) => {
+    return positions.map((data) => (
+      <MapMarker
+        key={`${subCategory}-${data.lat},${data.lng}`}
+        position={data}
+        image={{
+          src: markerImageSrc,
+          size: imageSize,
+          options: {
+            spriteSize: spriteSize,
+            spriteOrigin: imageOptions,
+          },
+        }}
+        clickable={true}
+        onClick={() => locationInformation(data)}
+      />
+    ));
+  };
   return (
     <>
       <StMapContainer>
         <div id="mapwrap">
-          <Map // 지도를 표시할 Container
+          <Map
             id={`map`}
             center={{
-              // 지도의 중심좌표
               lat: myLocation.lat,
               lng: myLocation.lng,
             }}
             isPanto={false}
             style={{
-              // 지도의 크기
               width: "100%",
               height: "100%",
             }}
-            level={myLocation.level} // 지도의 확대 레벨
+            level={myLocation.level}
             onDragEnd={(map) =>
               setMyLocation({
                 lat: map.getCenter().getLat(),
@@ -167,108 +157,18 @@ function KakaoMap() {
             }
           >
             {selectedCategory === "restaurant" &&
-              restaurantPositions.map((position) => (
-                <MapMarker
-                  key={`restaurant-${position.lat},${position.lng}`}
-                  position={position}
-                  image={{
-                    src: markerImageSrc,
-                    size: imageSize,
-                    options: {
-                      spriteSize: spriteSize,
-                      spriteOrigin: restaurantOrigin,
-                    },
-                  }}
-                  clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-                  onClick={() => setIsOpen(true)}
-                />
-              ))}
-
+              renderMarkers(restaurantData, restaurantOrigin, "restaurant")}
             {selectedCategory === "lodging" &&
-              lodgingPositions.map((position) => (
-                <MapMarker
-                  key={`lodging-${position.lat},${position.lng}`}
-                  position={position}
-                  image={{
-                    src: markerImageSrc,
-                    size: imageSize,
-                    options: {
-                      spriteSize: spriteSize,
-                      spriteOrigin: lodgingOrigin,
-                    },
-                  }}
-                  clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-                  onClick={() => setIsOpen(true)}
-                />
-              ))}
+              renderMarkers(lodgingData, lodgingOrigin, "lodging")}
             {selectedCategory === "shopping" &&
-              shoppingPositions.map((position) => (
-                <MapMarker
-                  key={`shopping-${position.lat},${position.lng}`}
-                  position={position}
-                  image={{
-                    src: markerImageSrc,
-                    size: imageSize,
-                    options: {
-                      spriteSize: spriteSize,
-                      spriteOrigin: shoppingOrigin,
-                    },
-                  }}
-                  clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-                  onClick={() => setIsOpen(true)}
-                />
-              ))}
+              renderMarkers(shoppingData, shoppingOrigin, "shopping")}
             {selectedCategory === "sightseeing" &&
-              sightseeingPositions.map((position) => (
-                <MapMarker
-                  key={`sightseeing-${position.lat},${position.lng}`}
-                  position={position}
-                  image={{
-                    src: markerImageSrc,
-                    size: imageSize,
-                    options: {
-                      spriteSize: spriteSize,
-                      spriteOrigin: sightseeingOrigin,
-                    },
-                  }}
-                  clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-                  onClick={() => setIsOpen(true)}
-                />
-              ))}
+              renderMarkers(sightseeingData, sightseeingOrigin, "sightseeing")}
             {selectedCategory === "humanities" &&
-              humanitiesPositions.map((position) => (
-                <MapMarker
-                  key={`humanities-${position.lat},${position.lng}`}
-                  position={position}
-                  image={{
-                    src: markerImageSrc,
-                    size: imageSize,
-                    options: {
-                      spriteSize: spriteSize,
-                      spriteOrigin: humanitiesOrigin,
-                    },
-                  }}
-                  clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-                  onClick={() => setIsOpen(true)}
-                />
-              ))}
+              renderMarkers(humanitiesData, humanitiesOrigin, "humanities")}
             {selectedCategory === "leisure" &&
-              leisurePositions.map((position) => (
-                <MapMarker
-                  key={`leisure-${position.lat},${position.lng}`}
-                  position={position}
-                  image={{
-                    src: markerImageSrc,
-                    size: imageSize,
-                    options: {
-                      spriteSize: spriteSize,
-                      spriteOrigin: leisureOrigin,
-                    },
-                  }}
-                  clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-                  onClick={() => setIsOpen(true)}
-                />
-              ))}
+              renderMarkers(leisureData, leisureOrigin, "leisure")}
+
             {isOpen && (
               <StInfoContainer>
                 <StDeleteButton
@@ -278,7 +178,13 @@ function KakaoMap() {
                   src="https://github.com/Dino-Soul/client/assets/132332533/0ce09bf3-fca2-423e-8327-7ee22cf0c295"
                   onClick={() => setIsOpen(false)}
                 />
-                <StInfoBox>Hello World!</StInfoBox>
+                <StInfoBox>
+                  {isOpen.spotName}
+                  <br />
+                  {isOpen.location}
+                  <br />
+                  {isOpen.subCategory}
+                </StInfoBox>
               </StInfoContainer>
             )}
             <MapMarker // 마커를 생성합니다

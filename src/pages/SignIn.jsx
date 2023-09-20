@@ -2,24 +2,69 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import blackLogo from "../assets/blackLogo.png";
+import { useMutation } from "react-query";
+import { login } from "../api/userApi";
+import { useDispatch } from "react-redux";
+import { logIn } from "../redux/modules/loginSlice";
 
 function SignIn() {
   const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
+  // ----------------------------------------로그인 로직
+  const loginMutation = useMutation(login, {
+    onError: (error) => {
+      alert("아이디와 비밀번호를 확인해주세요!");
+    },
+    onSuccess: () => {
+      dispatch(logIn());
+      navigate("/");
+    },
+  });
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    const loginInformation = {
+      loginId: userId,
+      password,
+    };
+    loginMutation.mutate(loginInformation);
+  };
   return (
     <StOotdGramContainer>
-      <StSignLogo  onClick={() => {
+      <StSignLogo
+        onClick={() => {
           navigate("/");
-        }} src={blackLogo} alt="로고"/>
+        }}
+        src={blackLogo}
+        alt="로고"
+      />
 
-      <StInputForm>
-        <StSignInput />
-        <StSignInput />
+      <StInputForm onSubmit={onSubmitHandler}>
+        <StSignInput
+          onChange={(e) => setUserId(e.target.value)}
+          placeholder="Id"
+          value={userId}
+          type="text"
+        />
+        <StSignInput
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+        />
         <StSignButton type="submit" $bgColor={"blue"}>
           Sign in
         </StSignButton>
       </StInputForm>
       <p style={{ color: "#dfdbdb" }}>――――――――　OR　――――――――</p>
-      <StSignButton $bgColor={"gray"} onClick={() => {}}>
+      <StSignButton
+        $bgColor={"gray"}
+        onClick={() => {
+          navigate("/signup");
+        }}
+      >
         Sign up
       </StSignButton>
     </StOotdGramContainer>
