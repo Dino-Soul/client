@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import home from "../../../assets/home.png"
-import people from "../../../assets/people.png"
-import add from "../../../assets/add.png"
+import home from "../../../assets/home.png";
+import people from "../../../assets/people.png";
+import add from "../../../assets/add.png";
 import SnackAddModal from "../../modalForm/snackAddModalForm/SnackAddModal";
+import { useDispatch, useSelector } from "react-redux";
+import { logOff } from "../../../redux/modules/loginSlice";
 
 function NavBarButton({ CardCenterRef }) {
+  const state = useSelector((state) => state.isLogin.isLogin);
+  const dispatch = useDispatch();
+
   //홈버튼 눌렀을때 스크롤위치 맨 위쪽으로
   const scrollToTop = () => {
     CardCenterRef.current.scrollTo({
@@ -30,31 +35,47 @@ function NavBarButton({ CardCenterRef }) {
         </HomeButton>
       </Section>
       <Section>
-        <SingUpButton
-          onClick={() => {
-            navigate("signup");
-          }}
-        >
-          <PeopleIcon src={people} alt="회원가입버튼" />
-          <Span>회원가입/로그인</Span>
-        </SingUpButton>
+        {state ? (
+          <EditButton
+            onClick={() => {
+              navigate("personaldata");
+            }}
+          >
+            <PeopleIcon src={people} alt="회원가입버튼" />
+            <Span>프로필 수정</Span>
+          </EditButton>
+        ) : (
+          <SingUpButton
+            onClick={() => {
+              navigate("signup");
+            }}
+          >
+            <PeopleIcon src={people} alt="회원가입버튼" />
+            <Span>회원가입/로그인</Span>
+          </SingUpButton>
+        )}
       </Section>
       <Section>
         <AddButton onClick={snackAddModalHandler}>
           <AddIcon src={add} alt="게시물올리기버튼" />
           <Span>Snack 올리기</Span>
-          <SnackAddModal isAddModalVisibleState={isAddModalVisibleState} snackAddModalHandler={snackAddModalHandler} />
+          <SnackAddModal
+            isAddModalVisibleState={isAddModalVisibleState}
+            snackAddModalHandler={snackAddModalHandler}
+          />
         </AddButton>
       </Section>
-      <Section>
-        <EditButton
-          onClick={() => {
-            navigate("personaldata");
-          }}
-        >
-          <Span>프로필 수정</Span>
-        </EditButton>
-      </Section>
+      {state && (
+        <Section>
+          <LogOutButton
+            onClick={() => {
+              dispatch(logOff());
+            }}
+          >
+            <Span>로그아웃</Span>
+          </LogOutButton>
+        </Section>
+      )}
     </>
   );
 }
@@ -67,7 +88,7 @@ const Section = styled.section`
 
 const Span = styled.span`
   font-weight: bold;
-  color : white;
+  color: white;
 `;
 
 const HomeButton = styled.button`
@@ -142,6 +163,23 @@ const AddIcon = styled.img`
 `;
 
 const EditButton = styled.button`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 38px;
+  margin-top: 10px;
+  gap: 17px;
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(214, 221, 234, 0.2);
+  }
+`;
+const LogOutButton = styled.button`
   display: flex;
   justify-content: flex-start;
   align-items: center;
