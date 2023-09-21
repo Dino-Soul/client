@@ -14,7 +14,6 @@ const SnackDropZone = ({ toggleOotdModal, setSelectedImage }) => {
 
 	const onDrop = (acceptedFiles) => {
 		setUploadedFiles(acceptedFiles);
-		console.log(acceptedFiles);
 	};
 	const navigate = useNavigate();
 	const { getRootProps, getInputProps } = useDropzone({ onDrop });

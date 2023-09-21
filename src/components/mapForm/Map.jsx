@@ -88,7 +88,6 @@ function KakaoMap() {
   const humanitiesOrigin = { x: 10, y: 130 };
 
   const locationInformation = (Information) => {
-    console.log("Information", Information);
     setIsOpen(Information);
   };
 
