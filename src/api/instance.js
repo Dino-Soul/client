@@ -1,17 +1,15 @@
 import axios from "axios";
-
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
 });
 
 instance.interceptors.request.use(async (config) => {
-  // const accessToken = getToken("accessToken");
-  // if (accessToken) {
-  //   config.headers.Authorization = accessToken;
-  // } else {
-  //   deleteToken("accessToken"); //accessToken 값 undefined 뜰때 쿠키에서 삭제
-  // }
-  console.log("요청 완료", config);
+  const accesstoken = sessionStorage.getItem('accesstoken');
+
+  if (accesstoken) {
+    config.headers.authorization = accesstoken;
+  }
+console.log('config', config)
   return config;
 });
 

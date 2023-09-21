@@ -14,7 +14,6 @@ function PersonalDataEditModal({ editModal, toggleEditModal, setImage }) {
 
 	const onDrop = acceptedFiles => {
 		setUploadedFiles(acceptedFiles);
-		console.log(acceptedFiles);
 	};
 	const navigate = useNavigate();
 	const { getRootProps, getInputProps } = useDropzone({ onDrop });

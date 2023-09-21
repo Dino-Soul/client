@@ -4,19 +4,12 @@ import { styled } from "styled-components";
 import profile from "../../assets/profile.jpg";
 import Avatar from "../home/snackCardForm/Avatar";
 
-export default function CommentInput({
-  postId,
-  data,
-  item,
-  index,
-  setData,
-  openUpdateHandler,
-}) {
+export default function CommentInput() {
   const [Text, setText] = useState();
 
   return (
     <>
-      <Avatar image={profile} type="homeAvatar" />
+      {/* <Avatar image={profile} type="homeAvatar" />
       {item.isOpen ? (
         <StTextBox>
           <StIdText>{}</StIdText>
@@ -39,7 +32,7 @@ export default function CommentInput({
             <StUserBtn>삭제</StUserBtn>
           </>
         )}
-      </StUserEditCancelBtnBox>
+      </StUserEditCancelBtnBox> */}
     </>
   );
 }

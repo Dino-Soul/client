@@ -21,9 +21,6 @@ function PersonalData() {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
 
-  console.log(name);
-  console.log(JSON.stringify(image));
-
   //서버에 사진 전송하기
   const editPersonalDataHandler = async () => {
     try {

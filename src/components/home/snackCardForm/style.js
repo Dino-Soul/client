@@ -4,13 +4,15 @@ export const SnackCardContainer = styled.div`
 	display: flex;
 	position: relative;
 	flex-direction: column;
+	justify-content: center;
 	margin: 60px auto 60px auto;
 	width: 50vh;
 	height: 80vh;
-	background-color: beige;
+	background-color: black;
 	border-radius: 8px;
 	scroll-snap-align: center;
 	box-shadow: 0px -90px 16px 0px rgba(82,72,72,0.27) inset;
+	overflow-y: hidden;
 `;
 export const ButtonBox = styled.div`
 	display: flex;
