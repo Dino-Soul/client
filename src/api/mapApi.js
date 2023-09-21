@@ -6,4 +6,6 @@ const gettravlespot = async () => {
   return response.data;
 };
 
+
+
 export { gettravlespot };
