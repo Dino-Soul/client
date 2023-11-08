@@ -23,7 +23,7 @@ export const getPosts = async () => {
 
 // 댓글 조회
 export const getcomment = async (snackId) => {
-  const response = await instance.post(`/comment/snack`, snackId);
+  const response = await instance.post(`/comments`, snackId);
   // console.log("댓글 조회", response)
   return response;
 };
