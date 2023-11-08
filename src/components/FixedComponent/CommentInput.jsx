@@ -9,8 +9,8 @@ export default function CommentInput() {
 
   return (
     <>
-      {/* <Avatar image={profile} type="homeAvatar" />
-      {item.isOpen ? (
+     <Avatar image={profile} type="homeAvatar" />
+      {/* {item.isOpen ? (
         <StTextBox>
           <StIdText>{}</StIdText>
           <input autoFocus type="text" onChange={setText} value={Text} />
