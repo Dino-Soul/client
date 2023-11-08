@@ -8,12 +8,13 @@
 - 23.09.14~09.24 (1주)
 - ICT이노베이션 스퀘어 AI해커톤 대회 - 데이터를 활용한 관광 서비스 개발 분야 <span style="color:yellow">**1등**</span> 상 수상(강원정보문화산업진흥원장상 수상)
 
-<h1>
+
 
 <h2>로고</h2>
 <img width="200" alt="IMG_5966 PNG" src="https://github.com/project-team-six/FE/assets/130561236/2b55db4d-d9a3-4394-a584-7144b2629ea2">
+<img width="200" alt="IMG_5966 PNG" src="https://github.com/project-team-six/FE/assets/130561236/e30724d9-ab52-49e2-a05c-80efdddfa655">
 
-<h1>
+<br>
 
 <h2>시연영상</h2>
 <img width="1163" alt="스크린샷 2023-09-04 오후 12 23 20 (1)" src="https://github.com/project-team-six/FE/assets/130561236/b5fa34bc-ca67-47dd-ab9c-3be0c099ca52">
@@ -21,7 +22,7 @@
 
 
 
-<h1>
+
 <h2>기술적 의사결정 </h2>
 
 1. react-query:	클라이언트쪽 데이터가 아닌 서버쪽 데이터 관리를 더 원활하게 하기위해 사용
@@ -35,7 +36,7 @@
 3. Redux-toolkit:  전역적으로 관리해야 하는 데이터가 있었고, 컴포넌트 구조가 복잡하다 보니 리덕스로 상태관리를 해야 데이터를 활용하기 좋을 것 같았음.
 npm trends 지표에서 보면 리코일은 편하지만 아직 이슈도 많고, 정식버전이 배포되지 않은 배타이다. 그리고 리덕스를 배우면 리코일은 상대적으로 배우기 쉽고, 기본적으로 많은 기업들에서 리덕스구조의 보일러플레이트가 이미 잡혀있기 때문에 리덕스를 더 사용하고 있고, 회사에 입사했을 때 당황하지 빠르게 적응할 수 있을 것 같아서 리덕스를 선택하였음.
 
-<h1></h1>
+
 
 <h2>주요기능</h2>
 
@@ -49,7 +50,9 @@ npm trends 지표에서 보면 리코일은 편하지만 아직 이슈도 많고
 
 ✅ 좋아요와 댓글기능으로 유저간의 소통이 가능합니다!
 
-<h1></h1>
+<br>
+<hr>
+<br>
 
 FE / React  최은지
 - 깃허브 : https://github.com/hotcream3904
